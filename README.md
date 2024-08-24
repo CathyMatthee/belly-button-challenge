@@ -9,6 +9,7 @@ This repository contains the following folders and files for javascript module 1
 
 # sourcing
 - Chat GPT was used to change colour scale of the bubble chart (on line 70) and the colour of metadata header (on line 37)
+- Used chat GPT for instructions on how to deploy to git hub
 - Referred to https://plotly.com/javascript/bubble-charts/ to build the bubble charts (lines 65-69)
 
 # deployment
