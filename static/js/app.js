@@ -7,24 +7,31 @@ function buildMetadata(sample) {
 
     // get the metadata field
     let metadata = data.metadata;
+    console.log(metadata);
 
-    // Filter the metadata for the object with the desired sample number
+    // Filter with fat arrow method the metadata for the object with the desired sample number
     let sampleMetadata = metadata.filter(meta => meta.id == sample)[0];
         console.log(sampleMetadata);
-
+    
+    // Create an array of the selected sample's metadata keys
+    let keys = Object.keys(sampleMetadata);
+    // Create an array of the metadata values
+    let values = Object.values(sampleMetadata);        
+        
     // Use d3 to select the panel with id of `#sample-metadata`
     let metadataPanel = d3.select("#sample-metadata");
 
     // Use `.html("") to clear any existing metadata
     metadataPanel.html("");
 
-    // Inside a loop, you will need to use d3 to append new
+    // Inside a loop that loops over the arrays, you will need to use d3 to append new
     // tags for each key-value in the filtered metadata.
-    Object.entries(sampleMetadata).forEach(([key, value]) => {
-            metadataPanel.append("div")
-            .attr("class", "metadata-entry")
-            .html(`${key.toUpperCase()}: ${value}`);
-          });
+
+    for (let i = 0; i < keys.length; i++) { //looping over arrays
+      metadataPanel.append("div").html(`${keys[i].toUpperCase()}: ${values[i]}`); //used regex to make uppercase
+      // console.log(keys[i]);
+      // console.log(values[i]);
+    };
 
     // Update styling of metadata panel
     d3.select(".card-header").style("background-color", "steelblue");
@@ -38,8 +45,12 @@ function buildCharts(sample) {
 
     // Get the samples field and
     let samples = data.samples;
-    // Filter the samples for the object with the desired sample number
-    let sampleData = samples.filter(choice => choice.id == sample)[0];
+    
+    // Filter (with custom function) the samples for the object with the desired sample number
+    function matchId(choice) {
+    return choice.id == sample;
+    }  
+    let sampleData = samples.filter(matchId)[0];
     console.log(sampleData);
 
     // Get the otu_ids, otu_labels, and sample_values
@@ -118,12 +129,14 @@ function init() {
     // Use the list of sample names to populate the select options
     // Hint: Inside a loop, you will need to use d3 to append a new
     // option for each sample name.
-    names.forEach(name => {
-      dropdownMenu.append("option")
-      .text(name)
-      .attr("value", name);
-    });
+    for (let i = 0; i < names.length; i++) { //looping over array
+      dropdownMenu.append("option").text(names[i]);
+    };
 
+    // update text of header of dropdown menu
+    let header = d3.select(".card.card-body.bg-light h6");
+    header.text("Test Subject ID No:");
+    
     // Get the first sample from the list
     let sample = names[0];
     console.log(sample);
@@ -144,3 +157,4 @@ function init() {
 // Initialise the dashboard
 init();
 
+;
